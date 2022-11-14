@@ -2,27 +2,39 @@ import M from "materialize-css";
 
 const MaterializeHelper = (function () {
     // Private methods
-    function initFormSelect(){
-        var elems = document.querySelectorAll('select');
+    function initFormSelect(elemSelector){
+        var elems = document.querySelectorAll(elemSelector ? elemSelector : 'select');
         var instances = M.FormSelect.init(elems, null);
         return instances; //Maybe unnecessary return instances variable
     }
 
-    // FormSelect not update data showed by default, then is necessary next function to append items in select
-    // From: https://codepen.io/tsai_94/pen/OeLOrw
-    function appendInFormSelect(data, elemIdSelector){
-        var selectobject = document.createElement("option");
-        selectobject.text = data.name;
-        selectobject.value = data.id;
-        var selectList = document.getElementById(elemIdSelector);
-        selectList.appendChild(selectobject);
-        M.FormSelect.init(selectList);
-        return;
+    function showAlert(msg, type){
+        var color = alertColor(type);
+        M.toast({html: msg, classes: `${color}`});
     }
+
+    function alertColor(type){
+        var color;
+        switch (type) {
+            case 'success':
+                color = 'green lighten-1'
+                break;
+            case 'warning':
+                color = 'orange lighten-1'
+                break;
+            case 'danger':
+                color = 'red lighten-1'
+                break;
+            default:
+                color = ''
+        }
+        return color;
+    }
+
     // Public methods
     return {
         initFormSelect: initFormSelect,
-        appendInFormSelect: appendInFormSelect
+        showAlert: showAlert
     }
 }())
 
