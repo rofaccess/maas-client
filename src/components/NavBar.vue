@@ -7,7 +7,7 @@
           <img alt="MaaS" src="../assets/maas-logo.png" height="56" width="205">
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="companies.html">Companies</a></li>
+        <!-- <li><a href="companies.html">Companies</a></li>-->
         </ul>
       </div>
     </nav>

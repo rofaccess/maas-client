@@ -49,3 +49,6 @@ Acceder a localhost:8080 en el navegador
     $ npm install materialize-css@next --save
     $ npm install material-design-icons --save
 
+**Instalar Axios para peticiones HTTP**
+
+    $ npm install --save axios vue-axios

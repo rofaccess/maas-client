@@ -1,16 +1,16 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="container">
-
-  </div>
+  <calendar-filter></calendar-filter>
 </template>
 
 <script>
 import NavBar from './components/NavBar.vue'
+import CalendarFilter from "@/components/CalendarFilter";
 
 export default {
   name: 'App',
   components: {
+    CalendarFilter,
     NavBar
   }
 }
