@@ -10,12 +10,21 @@
           </select>
           <label>Company</label>
         </div>
+
         <div class="input-field col s3">
           <select id="monitored-service-select" :disabled="!hasMonitoredServices" v-model="monitoredServiceId" v-on:change="loadWeeklyMonitoringCalendars">
             <option value="" disabled selected>Choose Monitored Service</option>
             <option v-for="monitoredService in monitoredServices" v-bind:key="monitoredService" v-bind:value="monitoredService.id">{{monitoredService.name}}</option>
           </select>
           <label>Monitored Service</label>
+        </div>
+
+        <div class="input-field col s3">
+          <select id="weekly-monitoring-calendar-select" :disabled="!hasWeeklyMonitoringCalendars" v-model="weeklyMonitoringCalendarId" v-on:change="loadWeeklyMonitoringCalendars">
+            <option value="" disabled selected>Choose Weekly Calendar</option>
+            <option v-for="weeklyMonitoringCalendar in weeklyMonitoringCalendars" v-bind:key="weeklyMonitoringCalendar" v-bind:value="weeklyMonitoringCalendar.id">{{weeklyMonitoringCalendar.name}}</option>
+          </select>
+          <label>Weekly Calendar</label>
         </div>
       </div>
     </form>
@@ -26,6 +35,8 @@
 import MaterializeHelper from '../helpers/materialize-helper'
 import { nextTick } from 'vue'
 
+const WEEKLY_MONITORING_CALENDAR_SELECT = "#weekly-monitoring-calendar-select";
+
 export default {
   name: 'CalendarFilter',
   data() {
@@ -33,7 +44,9 @@ export default {
       companyId: '',
       companies: [],
       monitoredServiceId: '',
-      monitoredServices: []
+      monitoredServices: [],
+      weeklyMonitoringCalendarId: '',
+      weeklyMonitoringCalendars: ''
     }
   },
   mounted() {
@@ -63,14 +76,29 @@ export default {
       var url = `/companies/${this.companyId}/monitored_services`;
       this.axios.get(url, {responseType: 'json'})
           .then(response => {
+            this.clearWeeklyMonitoringCalendars();
             this.monitoredServices = response.data;
             this.initFormSelect('#monitored-service-select');
             if(!this.hasMonitoredServices)
               MaterializeHelper.showAlert(`No monitored services found for ${this.company().name}`, 'warning');
           });
     },
+    monitoredService() {
+      return this.monitoredServices.find(x => parseInt(x.id) == parseInt(this.monitoredServiceId));
+    },
     loadWeeklyMonitoringCalendars(){
-
+      var url = `/monitored_services/${this.monitoredServiceId}/weekly_monitoring_calendars`;
+      this.axios.get(url, {responseType: 'json'})
+          .then(response => {
+            this.weeklyMonitoringCalendars = response.data;
+            this.initFormSelect(WEEKLY_MONITORING_CALENDAR_SELECT);
+            if(!this.hasWeeklyMonitoringCalendars)
+              MaterializeHelper.showAlert(`No weekly calendars found for ${this.monitoredService().name}`, 'warning');
+          });
+    },
+    clearWeeklyMonitoringCalendars() {
+      this.weeklyMonitoringCalendars = [];
+      this.initFormSelect(WEEKLY_MONITORING_CALENDAR_SELECT);
     },
   },
   computed: {
@@ -79,6 +107,9 @@ export default {
     },
     hasMonitoredServices() {
       return this.monitoredServices.length > 0;
+    },
+    hasWeeklyMonitoringCalendars(){
+      return this.weeklyMonitoringCalendars.length > 0;
     }
   }
 }
