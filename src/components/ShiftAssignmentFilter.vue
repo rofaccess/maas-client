@@ -70,7 +70,9 @@ export default {
             this.companies = response.data;
             this.initFormSelect('#company-select');
             if(!this.hasCompanies) MaterializeHelper.showAlert('No companies found');
-
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load companies`, 'danger');
           });
     },
     company() {
@@ -85,6 +87,9 @@ export default {
             this.initFormSelect('#monitored-service-select');
             if(!this.hasMonitoredServices)
               MaterializeHelper.showAlert(`No monitored services found for ${this.company().name}`, 'warning');
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load monitored services`, 'danger');
           });
     },
     monitoredService() {
@@ -98,6 +103,9 @@ export default {
             this.initFormSelect(WEEKLY_MONITORING_CALENDAR_SELECT);
             if(!this.hasWeeklyMonitoringCalendars)
               MaterializeHelper.showAlert(`No weekly calendars found for ${this.monitoredService().name}`, 'warning');
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load weekly calendars`, 'danger');
           });
     },
     clearWeeklyMonitoringCalendars() {

@@ -3,7 +3,7 @@
     <form>
       <div class="row">
         <div class="input-field col s3">
-          <select id="weekly-calendar-select" v-model="weeklyCalendarId" v-on:change="setWeeklyCalendarDates">
+          <select id="weekly-calendar-select" v-model="weeklyCalendarId" v-on:change="setWeeklyCalendar">
             <option value="" disabled selected>Choose Weekly Calendar</option>
             <option v-for="weeklyCalendar in weeklyCalendars" v-bind:key="weeklyCalendar" v-bind:value="weeklyCalendar.name">{{weeklyCalendar.name}}</option>
           </select>
@@ -27,17 +27,17 @@
   </div>
 
   <!-- Set a reference to component in ref -->
-  <week-calendar ref="weeklyCalendarComponent" :timeBlocks="timeBlocks"></week-calendar>
+  <weekly-calendar ref="weeklyCalendarComponent" :timeBlocks="timeBlocks"></weekly-calendar>
 </template>
 
 <script>
-import WeekCalendar from "@/components/WeekCalendar";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
 import MaterializeHelper from "@/helpers/materialize-helper";
 import {nextTick} from "vue";
 
 export default {
   name: 'EmployeeAssignment',
-  components: {WeekCalendar},
+  components: {WeeklyCalendar},
   props: {
     timeBlocks: Array
   },
@@ -67,14 +67,16 @@ export default {
             this.weeklyCalendars = response.data;
             this.initFormSelect('#weekly-calendar-select');
             if(!this.hasWeeklyCalendars) MaterializeHelper.showAlert('No weekly calendars found');
-
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load weekly calendars`, 'danger');
           });
     },
     weeklyCalendar() {
       return this.weeklyCalendars.find(x => x.name == this.weeklyCalendarId);
     },
-    setWeeklyCalendarDates() {
-      this.$refs.weeklyCalendarComponent.setWeeklyCalendarDates(this.weeklyCalendar());
+    setWeeklyCalendar() {
+      this.$refs.weeklyCalendarComponent.setWeeklyCalendar(this.weeklyCalendar());
     },
     loadEmployees() {
       this.axios.get('/employees', {responseType: 'json'})
@@ -82,7 +84,9 @@ export default {
             this.employees = response.data;
             this.initFormSelect('#employee-select');
             if(!this.hasEmployees) MaterializeHelper.showAlert('No employees found');
-
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load employees`, 'danger');
           });
     },
     loadAssignments(){

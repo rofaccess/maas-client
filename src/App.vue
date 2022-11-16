@@ -24,6 +24,9 @@ export default {
           .then(response => {
             this.timeBlocks = response.data;
             if(!this.hasTimeBlocks) MaterializeHelper.showAlert('No time blocks found');
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load time blocks`, 'danger');
           });
     }
   },

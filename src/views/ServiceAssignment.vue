@@ -1,12 +1,12 @@
 <template>
-  <week-calendar :timeBlocks="timeBlocks"></week-calendar>
+  <weekly-calendar :timeBlocks="timeBlocks"></weekly-calendar>
 </template>
 
 <script>
-import WeekCalendar from "@/components/WeekCalendar";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
 export default {
   name: 'ServiceAssignment',
-  components: {WeekCalendar},
+  components: {WeeklyCalendar},
   props: {
     timeBlocks: Array
   }

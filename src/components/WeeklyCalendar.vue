@@ -1,5 +1,5 @@
 <template>
-  <div class="week-calendar-container scrollable-table-wrapper">
+  <div class="weekly-calendar-container scrollable-table-wrapper">
     <table class="responsive-table">
       <thead>
         <tr>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'WeekCalendar',
+  name: 'WeeklyCalendar',
   props: {
     timeBlocks: Array
   },
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    setWeeklyCalendarDates(weeklyCalendar) {
+    setWeeklyCalendar(weeklyCalendar) {
       this.weeklyCalendar = weeklyCalendar;
     },
   }
@@ -47,11 +47,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.week-calendar-container {
+.weekly-calendar-container {
   border: 2px solid #ef9a9a;
 }
 th {
   text-transform: capitalize;
+}
+
+td {
+  border-right: 1px solid lightgray;
 }
 
 /* From: https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll */
