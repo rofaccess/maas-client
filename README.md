@@ -52,3 +52,7 @@ Acceder a localhost:8080 en el navegador
 **Instalar Axios para peticiones HTTP**
 
     $ npm install --save axios vue-axios
+
+**Instalar Router para rutas**
+
+    $ npm install vue-router@next

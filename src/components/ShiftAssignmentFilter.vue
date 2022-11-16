@@ -46,7 +46,7 @@ import { nextTick } from 'vue'
 const WEEKLY_MONITORING_CALENDAR_SELECT = "#weekly-monitoring-calendar-select";
 
 export default {
-  name: 'CalendarFilter',
+  name: 'ShiftAssignmentFilter',
   data() {
     return {
       companyId: '',

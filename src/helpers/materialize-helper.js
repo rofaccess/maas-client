@@ -8,6 +8,12 @@ const MaterializeHelper = (function () {
         return instances; //Maybe unnecessary return instances variable
     }
 
+    function initDropdown(elemSelector){
+        var elems = document.querySelectorAll(elemSelector);
+        var instances = M.Dropdown.init(elems, null);
+        return instances; //Maybe unnecessary return instances variable
+    }
+
     function showAlert(msg, type){
         var color = alertColor(type);
         M.toast({html: msg, classes: `${color}`});
@@ -34,6 +40,7 @@ const MaterializeHelper = (function () {
     // Public methods
     return {
         initFormSelect: initFormSelect,
+        initDropdown: initDropdown,
         showAlert: showAlert
     }
 }())
