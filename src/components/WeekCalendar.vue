@@ -9,7 +9,7 @@
       </thead>
       <tbody>
         <tr class="row" v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
-          <td class="center yellow lighten-5">{{timeBlock.description}}</td>
+          <td class="center yellow lighten-5">{{timeBlock.name}}</td>
           <td v-for="day in days" v-bind:key="day"></td>
         </tr>
       </tbody>
@@ -20,30 +20,12 @@
 <script>
 export default {
   name: 'WeekCalendar',
+  props: {
+    timeBlocks: Array
+  },
   data() {
     return {
-      days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-      timeBlocks: {}
-    }
-  },
-  mounted() {
-    this.buildTimeBlocks();
-  },
-  methods: {
-    buildTimeBlocks() {
-      for (var i = 0; i < 24; i++) {
-        var startAt = this.buildHour(i);
-        var endAt = this.buildHour(i + 1);
-        if(i + 1 == 24) endAt = '23:59';
-        var key = `${startAt} - ${endAt}`
-        this.timeBlocks[key] = {description: key, color: 'white'};
-      }
-    },
-    buildHour(hour){
-      hour = hour.toString();
-      if(hour.length == 1) hour = `0${hour}`;
-      hour = `${hour}:00`;
-      return hour;
+      days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     }
   }
 }
