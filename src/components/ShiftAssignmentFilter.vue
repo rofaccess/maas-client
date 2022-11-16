@@ -28,11 +28,7 @@
         </div>
 
         <div class="input-field col s3">
-          <select id="employee-select" v-model="employeeId" v-on:change="loadAssignments">
-            <option value="" disabled selected>Choose Employee</option>
-            <option v-for="employee in employees" v-bind:key="employee" v-bind:value="employee.id">{{employee.name}}</option>
-          </select>
-          <label>Employee</label>
+          <a class="waves-effect waves-light btn teal lighten-1 right">Search</a>
         </div>
       </div>
     </form>
@@ -54,15 +50,12 @@ export default {
       monitoredServiceId: '',
       monitoredServices: [],
       weeklyMonitoringCalendarId: '',
-      weeklyMonitoringCalendars: '',
-      employeeId: '',
-      employees: [],
+      weeklyMonitoringCalendars: ''
     }
   },
   mounted() {
     MaterializeHelper.initFormSelect(); // Init select style for all selects
     this.loadCompanies();
-    this.loadEmployees();
   },
   methods: {
     initFormSelect(elemSelector) {
@@ -111,18 +104,6 @@ export default {
       this.weeklyMonitoringCalendars = [];
       this.initFormSelect(WEEKLY_MONITORING_CALENDAR_SELECT);
     },
-    loadEmployees() {
-      this.axios.get('/employees', {responseType: 'json'})
-          .then(response => {
-            this.employees = response.data;
-            this.initFormSelect('#employee-select');
-            if(!this.hasEmployees) MaterializeHelper.showAlert('No employees found');
-
-          });
-    },
-    loadAssignments(){
-
-    }
   },
   computed: {
     hasCompanies() {
@@ -133,9 +114,6 @@ export default {
     },
     hasWeeklyMonitoringCalendars(){
       return this.weeklyMonitoringCalendars.length > 0;
-    },
-    hasEmployees(){
-      return this.employees.length > 0;
     }
   }
 }
@@ -143,12 +121,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.filter-container {
-  border: 2px solid #ef9a9a;
-}
 
-.row {
-  margin-bottom: 0;
-  margin-top: 20px;
-}
 </style>

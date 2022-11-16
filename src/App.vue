@@ -36,4 +36,12 @@ export default {
 </script>
 
 <style>
+.filter-container {
+  border: 2px solid #ef9a9a;
+}
+
+.row {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
 </style>

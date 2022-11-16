@@ -4,13 +4,12 @@
       <thead>
         <tr>
           <th></th>
-          <th v-for="day in days" v-bind:key="day">{{day}}</th>
+          <th class="center" v-for="detail in weeklyCalendar.details" v-bind:key="detail">{{detail.day}}<br><span class="teal-text text-lighten-1">{{detail.date}}</span></th>
         </tr>
       </thead>
       <tbody>
         <tr class="row" v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
           <td class="center yellow lighten-5">{{timeBlock.name}}</td>
-          <td v-for="day in days" v-bind:key="day"></td>
         </tr>
       </tbody>
     </table>
@@ -25,8 +24,23 @@ export default {
   },
   data() {
     return {
-      days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+      weeklyCalendar: {
+        details: [
+          {day: 'monday', date: ''},
+          {day: 'tuesday', date: ''},
+          {day: 'wednesday', date: ''},
+          {day: 'thursday', date: ''},
+          {day: 'friday', date: ''},
+          {day: 'saturday', date: ''},
+          {day: 'sunday', date: ''},
+        ]
+      }
     }
+  },
+  methods: {
+    setWeeklyCalendarDates(weeklyCalendar) {
+      this.weeklyCalendar = weeklyCalendar;
+    },
   }
 }
 </script>
