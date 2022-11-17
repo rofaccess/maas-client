@@ -2,8 +2,16 @@
   <div class="weekly-calendar-container scrollable-table-wrapper">
     <table class="responsive-table">
       <thead>
+        <tr>
+          <th></th>
+          <th class="center" v-for="day in weeklyCalendar.days" v-bind:key="day">{{day.name}}<br><span class="teal-text text-lighten-1">{{day.date}}</span></th>
+        </tr>
       </thead>
       <tbody>
+      <tr v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
+        <td class="center yellow lighten-5">{{timeBlock.name}}</td>
+        <td class="center" v-for="day in weeklyCalendar.days" v-bind:key="day">{{day.date}}</td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -11,7 +19,11 @@
 
 <script>
 export default {
-  name: 'WeeklyCalendar'
+  name: 'WeeklyCalendar',
+  props: {
+    weeklyCalendar: Object,
+    timeBlocks: Array
+  }
 }
 </script>
 

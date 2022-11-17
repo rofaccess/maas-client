@@ -1,13 +1,28 @@
 <template>
-  <weekly-calendar></weekly-calendar>
+  <weekly-calendar ref="weeklyCalendarComponent" :weeklyCalendar="weeklyCalendar" :timeBlocks="timeBlocks"></weekly-calendar>
 </template>
 
 <script>
 import WeeklyCalendar from "@/components/WeeklyCalendar";
+import UtilHelper from "@/helpers/util-helper";
 
 export default {
   name: 'ShiftAssignment',
-  components: { WeeklyCalendar }
+  components: { WeeklyCalendar },
+  props: {
+    selectedWeeklyCalendar: Object,
+    timeBlocks: Array
+  },
+  data() {
+    return {
+      weeklyCalendar: UtilHelper.deepClone(this.selectedWeeklyCalendar)
+    }
+  },
+  methods: {
+    updateWeeklyCalendar(weeklyCalendar) {
+      this.weeklyCalendar = weeklyCalendar;
+    }
+  }
 }
 </script>
 
