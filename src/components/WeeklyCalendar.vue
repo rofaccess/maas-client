@@ -10,6 +10,7 @@
       <tbody>
         <tr class="row" v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
           <td class="center yellow lighten-5">{{timeBlock.name}}</td>
+          <td class="center" v-for="detail in weeklyCalendar.details" v-bind:key="detail">{{detail.day}}<br><span class="teal-text text-lighten-1">{{detail.date}}</span></td>
         </tr>
       </tbody>
     </table>
@@ -39,8 +40,13 @@ export default {
   },
   methods: {
     setWeeklyCalendar(weeklyCalendar) {
+      console.log(this.timeBlocks)
       this.weeklyCalendar = weeklyCalendar;
+      console.log(weeklyCalendar)
     },
+    setTimeBlockEmployeeAssignments(timeBlockEmployeeAssignments){
+      console.log(timeBlockEmployeeAssignments)
+    }
   }
 }
 </script>

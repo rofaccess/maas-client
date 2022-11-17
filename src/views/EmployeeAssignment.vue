@@ -1,6 +1,6 @@
 <template>
   <div class="filter-container">
-    <form>
+    <form @submit.prevent>
       <div class="row">
         <div class="input-field col s3">
           <select id="weekly-calendar-select" v-model="weeklyCalendarId" v-on:change="setWeeklyCalendar">
@@ -19,8 +19,8 @@
         </div>
 
         <div class="input-field col s6">
-          <a class="waves-effect waves-light btn teal lighten-1 right">Update</a>
-          <a class="waves-effect waves-light btn teal lighten-1 right">Search</a>
+          <button type="submit" class="waves-effect waves-light btn teal lighten-1 right" :disabled="false">Update</button>
+          <button type="submit" class="waves-effect waves-light btn teal lighten-1 right" :disabled="isBtnDisabled" @click="loadAssignments">Search</button>
         </div>
       </div>
     </form>
@@ -44,15 +44,16 @@ export default {
   data() {
     return {
       weeklyCalendars: [],
-      weeklyCalendarId: {},
-      employeeId: '',
+      weeklyCalendarId: null,
+      employeeId: null,
       employees: [],
+      timeBlockEmployeeAssignments: null
     }
   },
   mounted() {
     MaterializeHelper.initFormSelect(); // Init select style for all selects
-    this.loadEmployees();
     this.loadWeeklyCalendars();
+    this.loadEmployees();
   },
   methods: {
     initFormSelect(elemSelector) {
@@ -73,7 +74,7 @@ export default {
           });
     },
     weeklyCalendar() {
-      return this.weeklyCalendars.find(x => x.name == this.weeklyCalendarId);
+      return this.weeklyCalendars[this.weeklyCalendarId];
     },
     setWeeklyCalendar() {
       this.$refs.weeklyCalendarComponent.setWeeklyCalendar(this.weeklyCalendar());
@@ -90,7 +91,15 @@ export default {
           });
     },
     loadAssignments(){
-
+      this.axios.get('/time_block_employee_assignments', {params: {employee_id: this.employeeId}, responseType: 'json'})
+          .then(response => {
+            this.timeBlockEmployeeAssignments = response.data;
+            this.$refs.weeklyCalendarComponent.setTimeBlockEmployeeAssignments(this.timeBlockEmployeeAssignments);
+            if(!this.hasTimeBlockEmployeeAssignments) MaterializeHelper.showAlert('No assignments found');
+          })
+          .catch(error => {
+            MaterializeHelper.showAlert(`${error.message}: Can't load assignments`, 'danger');
+          });
     },
   },
   computed: {
@@ -99,7 +108,13 @@ export default {
     },
     hasWeeklyCalendars(){
       return this.weeklyCalendars.length > 0;
-    }
+    },
+    hasTimeBlockEmployeeAssignments(){
+      return this.timeBlockEmployeeAssignments.length > 0;
+    },
+    isBtnDisabled(){
+      return (this.employeeId == null || this.weeklyCalendarId == null);
+    },
   }
 }
 </script>
