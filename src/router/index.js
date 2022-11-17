@@ -7,17 +7,26 @@ const routes = [
     {
         path: '/',
         name: 'ShiftAssignment',
-        component: ShiftAssignment
+        component: ShiftAssignment,
+        meta: {
+            viewTitle: 'Shift Assignments',
+        },
     },
     {
         path: '/service_assignment',
         name: 'ServiceAssignment',
-        component: ServiceAssignment
+        component: ServiceAssignment,
+        meta: {
+            viewTitle: 'Service Assignments',
+        },
     },
     {
         path: '/employee_assignment',
         name: 'EmployeeAssignment',
-        component: EmployeeAssignment
+        component: EmployeeAssignment,
+        meta: {
+            viewTitle: 'Employee Assignments',
+        },
     }
 ];
 

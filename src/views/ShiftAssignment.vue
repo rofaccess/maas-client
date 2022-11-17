@@ -1,17 +1,17 @@
 <template>
-  <shift-assignment-filter></shift-assignment-filter>
-  <weekly-calendar :timeBlocks="timeBlocks"></weekly-calendar>
+  <weekly-calendar></weekly-calendar>
 </template>
 
 <script>
-import ShiftAssignmentFilter from "@/components/ShiftAssignmentFilter";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 
 export default {
   name: 'ShiftAssignment',
-  components: {WeeklyCalendar, ShiftAssignmentFilter},
-  props: {
-    timeBlocks: Array
-  }
+  components: { WeeklyCalendar }
 }
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
