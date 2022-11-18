@@ -1,20 +1,20 @@
 <template>
-  <div className="filter-container">
-    <div className="row">
-      <div className="input-field col s3">
+  <div class="filter-container">
+    <div class="row">
+      <div class="input-field col s3">
         <weekly-calendar-selector></weekly-calendar-selector>
       </div>
 
-      <div className="input-field col s3">
+      <div class="input-field col s3">
 
       </div>
 
-      <div className="input-field col s3">
+      <div class="input-field col s3">
 
       </div>
 
-      <div className="input-field col s3">
-        <a className="waves-effect waves-light btn teal lighten-1 right">Search</a>
+      <div class="input-field col s3">
+        <a class="waves-effect waves-light btn teal lighten-1 right">Search</a>
       </div>
     </div>
   </div>
@@ -24,10 +24,12 @@
 import WeeklyCalendarSelector from "@/components/WeeklyCalendarSelector";
 
 export default {
-  name: 'ShiftAssignmentFilter',
+  name: 'ServiceAssignmentFilter',
   components: {WeeklyCalendarSelector},
   data() {
-    return {}
+    return {
+
+    }
   },
   methods: {
     showWeeklyCalendar(weeklyCalendar) {

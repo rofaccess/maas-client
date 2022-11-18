@@ -8,10 +8,14 @@
         </tr>
       </thead>
       <tbody>
-      <tr v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
-        <td class="center yellow lighten-5">{{timeBlock.name}}</td>
-        <td class="center" v-for="day in weeklyCalendar.days" v-bind:key="day">{{day.date}}</td>
-      </tr>
+        <template v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
+          <tr>
+            <td class="center yellow lighten-5">{{timeBlock.name}}</td>
+            <template v-for="(dayTimeBlocks, day) in timeBlocksAssignments" v-bind:key="(dayTimeBlocks, day)">
+              <td class="center" :class="[dayTimeBlocks[timeBlock.name].color]">{{dayTimeBlocks[timeBlock.name].employee_name}}</td>
+            </template>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
@@ -21,8 +25,57 @@
 export default {
   name: 'WeeklyCalendar',
   props: {
-    weeklyCalendar: Object,
     timeBlocks: Array
+  },
+  data() {
+    return {
+      weeklyCalendar: this.emptyWeeklyCalendar(),
+      timeBlocksAssignments: {}
+    }
+  },
+  methods: {
+    emptyWeeklyCalendar() {
+      return {
+        days: [
+          {name: 'monday', date: ''},
+          {name: 'tuesday', date: ''},
+          {name: 'wednesday', date: ''},
+          {name: 'thursday', date: ''},
+          {name: 'friday', date: ''},
+          {name: 'saturday', date: ''},
+          {name: 'sunday', date: ''},
+        ]
+      }
+    },
+    emptyTimeBlocksAssignments() {
+      var day;
+      var timeBlocksAssignments = {};
+      for (day of this.emptyWeeklyCalendar().days) {
+        var dayName = day.name;
+        var timeBlock;
+        for (timeBlock of this.timeBlocks) {
+          var timeBlockName = timeBlock.name;
+          if(timeBlocksAssignments[dayName] === undefined){
+            timeBlocksAssignments[dayName] = {};
+          }
+          timeBlocksAssignments[dayName][timeBlockName] = {color: 'white'}
+        }
+      }
+      return timeBlocksAssignments;
+    },
+    showWeeklyCalendar(weeklyCalendar) {
+      this.weeklyCalendar = weeklyCalendar;
+      this.timeBlocksAssignments = this.emptyTimeBlocksAssignments();
+    },
+    showTimeBlockAssignments(timeBlocksAssignments) {
+      this.timeBlocksAssignments = this.emptyTimeBlocksAssignments(); // Clear calendar before show new data
+
+      for (const [dayName, timeBlocks] of Object.entries(timeBlocksAssignments)) {
+        for (const [timeBlockName, assignment] of Object.entries(timeBlocks)) {
+          this.timeBlocksAssignments[dayName][timeBlockName] = assignment;
+        }
+      }
+    }
   }
 }
 </script>
@@ -38,6 +91,7 @@ th {
 
 td {
   border-right: 1px solid lightgray;
+  color: gray;
 }
 
 /* From: https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll */

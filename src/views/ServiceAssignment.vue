@@ -1,27 +1,28 @@
 <template>
-  <weekly-calendar :weeklyCalendar="weeklyCalendar" :timeBlocks="timeBlocks"></weekly-calendar>
+  <service-assignment-filter></service-assignment-filter>
+  <weekly-calendar ref="weeklyCalendarComponent" :timeBlocks="timeBlocks"></weekly-calendar>
 </template>
 
 <script>
+import ServiceAssignmentFilter from "@/components/ServiceAssignmentFilter";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
-import UtilHelper from "@/helpers/util-helper";
 
 export default {
   name: 'ServiceAssignment',
-  components: { WeeklyCalendar },
+  components: {ServiceAssignmentFilter, WeeklyCalendar },
   props: {
-    selectedWeeklyCalendar: Object,
     timeBlocks: Array
   },
   data() {
     return {
-      weeklyCalendar: UtilHelper.deepClone(this.selectedWeeklyCalendar)
+      weeklyCalendar: {}
     }
   },
   methods: {
-    updateWeeklyCalendar(weeklyCalendar) {
+    showWeeklyCalendar(weeklyCalendar) {
       this.weeklyCalendar = weeklyCalendar;
-    }
+      this.$refs.weeklyCalendarComponent.showWeeklyCalendar(this.weeklyCalendar);
+    },
   }
 }
 </script>
