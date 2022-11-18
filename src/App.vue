@@ -1,8 +1,10 @@
 <template>
   <nav-bar></nav-bar>
 
-  <div class="row filter-container">
-    <weekly-calendar-selector ref="weeklyCalendarSelectorComponent" :weeklyCalendars="weeklyCalendars"></weekly-calendar-selector>
+  <div class="filter-container">
+    <div class="row">
+      <weekly-calendar-selector ref="weeklyCalendarSelectorComponent" :weeklyCalendars="weeklyCalendars"></weekly-calendar-selector>
+    </div>
   </div>
 
   <router-view v-slot="{ Component }" :selectedWeeklyCalendar="selectedWeeklyCalendar" :timeBlocks="timeBlocks">
@@ -85,5 +87,9 @@ export default {
   margin-bottom: 0;
   padding-bottom: 0;
   padding-top: 20px;
+}
+
+.filter-container > .row {
+  margin-bottom: 0;
 }
 </style>
