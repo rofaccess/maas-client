@@ -14,6 +14,7 @@
       </div>
 
       <div class="input-field col s3">
+        <button class="waves-effect waves-light btn teal lighten-1 right" :disabled="isBtnDisabled" @click="saveAssignments">Save</button>
         <button class="waves-effect waves-light btn teal lighten-1 right" :disabled="isBtnDisabled" @click="loadAssignments">Search</button>
       </div>
     </div>
@@ -40,6 +41,9 @@ export default {
     },
     loadAssignments(){
       this.$parent.loadAssignments(this.weeklyCalendar, this.employee);
+    },
+    saveAssignments(){
+      this.$parent.saveAssignments();
     }
   },
   computed: {
@@ -52,5 +56,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .btn {
+    margin-left: 5px;
+  }
 </style>

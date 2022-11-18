@@ -31,6 +31,9 @@ const MaterializeHelper = (function () {
             case 'danger':
                 color = 'red lighten-1'
                 break;
+            case 'info':
+                color = 'blue lighten-1'
+                break;
             default:
                 color = ''
         }

@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import MaterializeHelper from "@/helpers/materialize-helper";
+
 export default {
   name: 'WeeklyCalendar',
   props: {
@@ -61,7 +63,16 @@ export default {
           if(timeBlocksAssignments[dayName] === undefined){
             timeBlocksAssignments[dayName] = {};
           }
-          timeBlocksAssignments[dayName][timeBlockName] = {color: this.unselectedColor};
+          timeBlocksAssignments[dayName][timeBlockName] = {
+            id: null,
+            time_block_id: timeBlock.id,
+            employee_id: null,
+            start_at: null,
+            end_at: null,
+            employee_name: null,
+            employee_color: null,
+            color: this.unselectedColor
+          };
         }
       }
       return timeBlocksAssignments;
@@ -77,28 +88,75 @@ export default {
       for (const [dayName, timeBlocks] of Object.entries(timeBlocksAssignments)) {
         for (const [timeBlockName, assignment] of Object.entries(timeBlocks)) {
           assignment.color = assignment.employee_color;
+          assignment.date = this.weeklyCalendarDayDate(dayName);
           this.timeBlocksAssignments[dayName][timeBlockName] = assignment;
         }
       }
     },
-    updateTimeBlock(event){
+    updateTimeBlock(event) {
       var cell = event.target;
       var dayName = cell.getAttribute('data-day');
       var timeBlockName = cell.getAttribute('data-time-block');
       var assignment = this.timeBlocksAssignments[dayName][timeBlockName];
 
-      // console.log(this.timeBlocksAssignments[dayName][timeBlockName])
       if (this.selectedEmployee) {
-        if (this.selectedEmployee.assigned_color === assignment.color) {
+        if (this.selectedEmployee.assigned_color === assignment.color) { // unselect time block
           assignment.color = this.unselectedColor;
           assignment.employee_name = "";
-        } else {
+          assignment.employee_id = null;
+        } else { // select time block
           assignment.color = this.selectedEmployee.assigned_color;
+          assignment.employee_id = this.selectedEmployee.id;
           assignment.employee_name = this.selectedEmployee.name;
+          assignment.date = this.weeklyCalendarDayDate(dayName);
+        }
+      } else {
+        MaterializeHelper.showAlert('Please. Select a employee and click in Search first', 'info');
+      }
+    },
+    weeklyCalendarDayDate(dayName) {
+      return this.weeklyCalendar.days.find(x => x.name === dayName).date;
+    },
+    async saveAssignments() {
+      if(this.selectedEmployee) {
+        //var payload = this.buildTimeBlocksAssignmentsToSave();
+        var payload = {
+          time_block_employee_assignment: {
+            items: this.buildTimeBlocksAssignmentsToSave()
+          }
+        }
+
+        console.log(payload)
+
+        await this.axios.post('/time_block_employee_assignments', payload)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(error => {
+              console.log("hubo un error")
+              MaterializeHelper.showAlert(`${error.message}: Can't save employee assignments`, 'danger');
+            });
+      }else {
+        MaterializeHelper.showAlert('Please. Select a employee and click in Search before save', 'info');
+      }
+    },
+    buildTimeBlocksAssignmentsToSave() {
+      var timeBlocksAssignmentsToSave = []
+      for (const timeBlocks of Object.values(this.timeBlocksAssignments)) {
+        for (const assignment of Object.values(timeBlocks)) {
+          if((assignment.id && !assignment.employee_id) || (!assignment.id && assignment.employee_id))  {
+            timeBlocksAssignmentsToSave.push({
+              id: assignment.id,
+              time_block_id: assignment.time_block_id,
+              employee_id: assignment.employee_id,
+              _destroy: assignment.employee_id ? false : true,
+              date: assignment.date,
+            });
+          }
         }
       }
+      return timeBlocksAssignmentsToSave;
     }
-
   }
 }
 </script>
@@ -115,6 +173,7 @@ th {
 td {
   border-right: 1px solid lightgray;
   color: gray;
+  cursor: pointer;
 }
 
 /* From: https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll */

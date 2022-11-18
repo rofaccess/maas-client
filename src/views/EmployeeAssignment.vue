@@ -43,6 +43,9 @@ export default {
     hasTimeBlocksAssignments() {
       return Object.keys(this.timeBlocksAssignments).length > 0;
     },
+    saveAssignments(){
+      this.$refs.weeklyCalendarComponent.saveAssignments();
+    }
   }
 }
 </script>
