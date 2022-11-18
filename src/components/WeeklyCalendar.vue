@@ -94,6 +94,8 @@ export default {
       }
     },
     updateTimeBlock(event) {
+      if(!(this.$route.path === '/employee_assignment')) return;
+
       var cell = event.target;
       var dayName = cell.getAttribute('data-day');
       var timeBlockName = cell.getAttribute('data-time-block');
@@ -126,14 +128,11 @@ export default {
           }
         }
 
-        console.log(payload)
-
         await this.axios.post('/time_block_employee_assignments', payload)
             .then(response => {
-              console.log(response)
+              MaterializeHelper.showAlert(response.data, 'success');
             })
             .catch(error => {
-              console.log("hubo un error")
               MaterializeHelper.showAlert(`${error.message}: Can't save employee assignments`, 'danger');
             });
       }else {

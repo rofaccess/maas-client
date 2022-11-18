@@ -6,11 +6,11 @@
       </div>
 
       <div className="input-field col s3">
-
+        <company-selector></company-selector>
       </div>
 
       <div className="input-field col s3">
-
+        <monitored-service-selector ref="monitoredServiceSelectorComponent"></monitored-service-selector>
       </div>
 
       <div className="input-field col s3">
@@ -22,17 +22,28 @@
 
 <script>
 import WeeklyCalendarSelector from "@/components/WeeklyCalendarSelector";
+import CompanySelector from "@/components/CompanySelector";
+import MonitoredServiceSelector from "@/components/MonitoredServiceSelector";
 
 export default {
   name: 'ShiftAssignmentFilter',
-  components: {WeeklyCalendarSelector},
+  components: {MonitoredServiceSelector, CompanySelector, WeeklyCalendarSelector},
   data() {
-    return {}
+    return {
+      weeklyCalendar: null,
+      company: null,
+      monitoredService: null,
+    }
   },
   methods: {
     showWeeklyCalendar(weeklyCalendar) {
+      this.weeklyCalendar = weeklyCalendar;
       this.$parent.showWeeklyCalendar(weeklyCalendar);
     },
+    updateCompany(company){
+      this.company = company;
+      this.$refs.monitoredServiceSelectorComponent.loadMonitoredServices(this.company.id);
+    }
   }
 }
 </script>

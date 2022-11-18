@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import WeeklyCalendarSelector from "@/components/WeeklyCalendarSelector";
 import EmployeeSelector from "@/components/EmployeeSelector";
+import WeeklyCalendarSelector from "@/components/WeeklyCalendarSelector";
 
 export default {
   name: 'EmployeeAssignmentFilter',
-  components: {EmployeeSelector, WeeklyCalendarSelector},
+  components: { WeeklyCalendarSelector, EmployeeSelector},
   data() {
     return {
       weeklyCalendar: null,

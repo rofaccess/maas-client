@@ -14,7 +14,7 @@
       </div>
 
       <div class="input-field col s3">
-        <a class="waves-effect waves-light btn teal lighten-1 right">Search</a>
+        <a class="waves-effect waves-light btn teal lighten-1 right disabled">Search</a>
       </div>
     </div>
   </div>
