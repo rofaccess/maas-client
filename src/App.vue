@@ -82,6 +82,7 @@ export default {
 <style>
 .filter-container {
   border: 2px solid #ef9a9a;
+  margin-bottom: 0;
   padding-bottom: 0;
   padding-top: 20px;
 }
