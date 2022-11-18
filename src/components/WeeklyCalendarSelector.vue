@@ -48,7 +48,6 @@ export default {
     },
     showWeeklyCalendar() {
       this.$parent.showWeeklyCalendar(this.weeklyCalendar());
-      this.updateParentWeeklyCalendarId();
     },
     hasWeeklyCalendars() {
       return this.weeklyCalendars.length > 0;
@@ -56,9 +55,6 @@ export default {
     weeklyCalendar(){
       return this.weeklyCalendars.find(x => x.name === this.weeklyCalendarId);
     },
-    updateParentWeeklyCalendarId() {
-      this.$parent.weeklyCalendarId = this.weeklyCalendarId;
-    }
   }
 }
 </script>

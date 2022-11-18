@@ -25,13 +25,13 @@ export default {
       this.weeklyCalendar = weeklyCalendar;
       this.$refs.weeklyCalendarComponent.showWeeklyCalendar(this.weeklyCalendar);
     },
-    loadAssignments(weeklyCalendarId, employeeId){
-      if(weeklyCalendarId === this.weeklyCalendar.name){
-        var url = `/employees/${employeeId}/assignments`;
+    loadAssignments(weeklyCalendar, employee){
+      if(weeklyCalendar.name === this.weeklyCalendar.name){
+        var url = `/employees/${employee.id}/assignments`;
         this.axios.get(url, {params: {start_date: this.weeklyCalendar.start_date, end_date: this.weeklyCalendar.end_date}, responseType: 'json'})
             .then(response => {
               this.timeBlocksAssignments = response.data;
-              this.$refs.weeklyCalendarComponent.showTimeBlockAssignments(this.timeBlocksAssignments);
+              this.$refs.weeklyCalendarComponent.showTimeBlockAssignments(employee, this.timeBlocksAssignments);
               if(this.hasTimeBlocksAssignments()) MaterializeHelper.showAlert('Assignments found', 'success');
               else MaterializeHelper.showAlert('No assignments found', 'warning');
             })

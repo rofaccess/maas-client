@@ -11,8 +11,8 @@
         <template v-for="timeBlock in timeBlocks" v-bind:key="timeBlock">
           <tr>
             <td class="center yellow lighten-5">{{timeBlock.name}}</td>
-            <template v-for="(dayTimeBlocks, day) in timeBlocksAssignments" v-bind:key="(dayTimeBlocks, day)">
-              <td class="center" :class="[dayTimeBlocks[timeBlock.name].color]">{{dayTimeBlocks[timeBlock.name].employee_name}}</td>
+            <template v-for="(dayTimeBlocks, dayName) in timeBlocksAssignments" v-bind:key="(dayTimeBlocks, dayName)">
+              <td class="center" :class="[dayTimeBlocks[timeBlock.name].color]" @click="updateTimeBlock($event)" :data-day="dayName" :data-time-block="timeBlock.name">{{dayTimeBlocks[timeBlock.name].employee_name}}</td>
             </template>
           </tr>
         </template>
@@ -30,7 +30,10 @@ export default {
   data() {
     return {
       weeklyCalendar: this.emptyWeeklyCalendar(),
-      timeBlocksAssignments: {}
+      timeBlocksAssignments: {},
+      unselectedColor: 'white',
+      uncoveredColor: 'red darken-1',
+      selectedEmployee: null,
     }
   },
   methods: {
@@ -58,7 +61,7 @@ export default {
           if(timeBlocksAssignments[dayName] === undefined){
             timeBlocksAssignments[dayName] = {};
           }
-          timeBlocksAssignments[dayName][timeBlockName] = {color: 'white'}
+          timeBlocksAssignments[dayName][timeBlockName] = {color: this.unselectedColor};
         }
       }
       return timeBlocksAssignments;
@@ -67,15 +70,35 @@ export default {
       this.weeklyCalendar = weeklyCalendar;
       this.timeBlocksAssignments = this.emptyTimeBlocksAssignments();
     },
-    showTimeBlockAssignments(timeBlocksAssignments) {
+    showTimeBlockAssignments(employee, timeBlocksAssignments) {
+      this.selectedEmployee = employee;
       this.timeBlocksAssignments = this.emptyTimeBlocksAssignments(); // Clear calendar before show new data
 
       for (const [dayName, timeBlocks] of Object.entries(timeBlocksAssignments)) {
         for (const [timeBlockName, assignment] of Object.entries(timeBlocks)) {
+          assignment.color = assignment.employee_color;
           this.timeBlocksAssignments[dayName][timeBlockName] = assignment;
         }
       }
+    },
+    updateTimeBlock(event){
+      var cell = event.target;
+      var dayName = cell.getAttribute('data-day');
+      var timeBlockName = cell.getAttribute('data-time-block');
+      var assignment = this.timeBlocksAssignments[dayName][timeBlockName];
+
+      // console.log(this.timeBlocksAssignments[dayName][timeBlockName])
+      if (this.selectedEmployee) {
+        if (this.selectedEmployee.assigned_color === assignment.color) {
+          assignment.color = this.unselectedColor;
+          assignment.employee_name = "";
+        } else {
+          assignment.color = this.selectedEmployee.assigned_color;
+          assignment.employee_name = this.selectedEmployee.name;
+        }
+      }
     }
+
   }
 }
 </script>

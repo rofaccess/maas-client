@@ -1,5 +1,5 @@
 <template>
-  <select id="employee-select" v-model="employeeId" v-on:change="updateParentEmployeeId">
+  <select id="employee-select" v-model="employeeId" v-on:change="updateParentEmployee">
     <option value="" disabled selected>Choose Employee</option>
     <option v-for="employee in employees" v-bind:key="employee" v-bind:value="employee.id">{{employee.name}}</option>
   </select>
@@ -45,8 +45,8 @@ export default {
     employee(){
       return this.employees.find(x => x.id === this.employeeId);
     },
-    updateParentEmployeeId() {
-      this.$parent.employeeId = this.employeeId;
+    updateParentEmployee() {
+      this.$parent.employee = this.employee();
     }
   }
 }

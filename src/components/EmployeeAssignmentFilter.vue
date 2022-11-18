@@ -29,21 +29,22 @@ export default {
   components: {EmployeeSelector, WeeklyCalendarSelector},
   data() {
     return {
-      weeklyCalendarId: null,
-      employeeId: null
+      weeklyCalendar: null,
+      employee: null
     }
   },
   methods: {
     showWeeklyCalendar(weeklyCalendar) {
+      this.weeklyCalendar = weeklyCalendar;
       this.$parent.showWeeklyCalendar(weeklyCalendar);
     },
     loadAssignments(){
-      this.$parent.loadAssignments(this.weeklyCalendarId, this.employeeId);
+      this.$parent.loadAssignments(this.weeklyCalendar, this.employee);
     }
   },
   computed: {
     isBtnDisabled() {
-      return (this.weeklyCalendarId == null || this.employeeId == null);
+      return (this.weeklyCalendar === null || this.employee === null);
     },
   }
 }
