@@ -14,7 +14,7 @@
       </div>
 
       <div className="input-field col s3">
-        <a className="waves-effect waves-light btn teal lighten-1 right">Search</a>
+        <button class="waves-effect waves-light btn teal lighten-1 right" :disabled="isBtnDisabled" @click="loadAssignments">Search</button>
       </div>
     </div>
   </div>
@@ -42,8 +42,17 @@ export default {
     },
     updateCompany(company){
       this.company = company;
+      this.monitoredService = null; // Clear selected service
       this.$refs.monitoredServiceSelectorComponent.loadMonitoredServices(this.company.id);
-    }
+    },
+    loadAssignments(){
+      this.$parent.loadAssignments(this.weeklyCalendar, this.monitoredService);
+    },
+  },
+  computed: {
+    isBtnDisabled() {
+      return (this.weeklyCalendar === null || this.company === null || this.monitoredService === null);
+    },
   }
 }
 </script>

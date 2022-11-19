@@ -93,6 +93,16 @@ export default {
         }
       }
     },
+    showShiftAssignments(monitoredService, timeBlocksAssignments) {
+      this.timeBlocksAssignments = this.emptyTimeBlocksAssignments(); // Clear calendar before show new data
+      console.log(timeBlocksAssignments)
+      for (const [dayName, timeBlocks] of Object.entries(timeBlocksAssignments)) {
+        for (const [timeBlockName, assignment] of Object.entries(timeBlocks)) {
+          assignment.date = this.weeklyCalendarDayDate(dayName);
+          this.timeBlocksAssignments[dayName][timeBlockName] = assignment;
+        }
+      }
+    },
     updateTimeBlock(event) {
       if(!(this.$route.path === '/employee_assignment')) return;
 
