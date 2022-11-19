@@ -1,3 +1,30 @@
+## Proceso de Instalación
+**Tecnologías utilizadas**
+- Nvm 0.39.2
+- Node V19
+- Npm 8.19.2  
+- Vue 3
+- Materialize CSS
+
+**Clonar el proyecto**
+
+    $ git clone https://github.com/rofaccess/maas-client.git
+
+**Acceder a la carpeta del proyecto**
+
+    $ cd maas-client
+
+**Instalar las librerias**
+
+    $ npm install
+
+**Ejecutar la aplicación**
+
+    $ npm run serve
+
+**Acceder al siguiente link**
+- localhost:8080
+
 # maas-client
 
 ## Project setup
